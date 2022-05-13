@@ -1,0 +1,9 @@
+{
+    "config": {
+        "path": "./mandelbrot.py",
+        "name" : "mandelbrot",
+        "iterations" : "20",
+        "fractal_specs" : { "type" : "mandelbrot", "max_iterations" : "30" }
+    }
+
+}
