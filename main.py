@@ -17,7 +17,6 @@ def read_json(file_name):
 
 #function that will interpret the json and pass the correct arguments to "call_py" function
 def prepare_args(j_arr):
-    print("DIOCANEPORCO")
     args = []
     for i in j_arr["config"]:
         args.append( j_arr["config"] [i] )
