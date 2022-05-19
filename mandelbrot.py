@@ -103,7 +103,7 @@ width, height = 4000, 4000
 
 
 ###############################
-mandelbrot_set = MandelbrotSet(max_iterations=70)
+mandelbrot_set = MandelbrotSet(max_iterations=20)
 '''
 scale = 0.0075
 GRAYSCALE = "L"
@@ -168,3 +168,57 @@ for y in range(height):
 image.show()
 #print(members)
 '''
+#############################################
+# part in which will be generated the video from images,
+# probably will be moved to another script
+###############################
+def gen_multiply_images(cx,cy,zoom_factor,steps,width,height,iter_feach_image):
+	x0,x1,y0,y1 = -2, 0.5, -1.5, 1.5
+	mandelbrot_set = MandelbrotSet(max_iterations=iter_feach_image)
+	arr_images = []
+	for i in range(steps):
+		c = complex_matrix(x0,x1,y0,y1, width, height)
+		image_row = create_set(c, max_iter, width, height)
+		arr_images.append(image_row)
+		'''
+		x0 = int(cx-0.5*width*(1-1/zoom_factor))
+		x1 = int(cx+0.5*width*(1-1/zoom_factor))
+		y0 = int(cy-0.5*height*(1-1/zoom_factor))
+		y1 = int(cy+0.5*height*(1-1/zoom_factor))
+		'''
+		#x0-cx < x1 - cx ? mini, maxi = x0-cx, x1-cx : maxi, mini = x0-cx, x1-cx bel tentativo..  
+		sx = False
+		maxi, mini = cx-x0, x1-cx
+		if cx - x0 < x1 - cx :
+			mini,maxi = maxi,mini
+			sx = True
+		ratiomm=maxi/mini
+		if ratiomm > 1.2:
+			to_move = ratiomm/10
+			if sx == True:
+				x0 -= to_move
+				x1 -= to_move
+				y0 -= to_move
+				y1 -= to_move
+			else 
+				x0 += to_move
+				x1 += to_move
+				y0 += to_move
+				y1 += to_move
+		x0 /= zoom_factor
+		x1 /= zoom_factor
+		y0 /= zoom_factor
+		y1 /= zoom_factor
+
+	return arr_images
+
+def generate_video_from_images(arr_imgs, pathOut, fps, time):
+	frames = []
+	for i in range(arr_imgs.shape[0]):
+		frames.append(arr_imgs[i])
+	out=cv2.VideoWriter(pathOut, cv2.VideoWriter_fourcc(*'mp4'), (fps, size))
+	for i in range(len(frames)):
+		out.write(frames[i])
+	out.release()
+
+out = gen_multiply_images(-1,0)
