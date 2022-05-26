@@ -200,7 +200,7 @@ def gen_multiply_images(cx,cy,zoom_factor,steps,width,height,iter_feach_image):
 				x1 -= to_move
 				y0 -= to_move
 				y1 -= to_move
-			else 
+			else:
 				x0 += to_move
 				x1 += to_move
 				y0 += to_move
