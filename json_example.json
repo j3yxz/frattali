@@ -1,9 +1,18 @@
 {
-    "config": {
-        "path": "./mandelbrot.py",
-        "name" : "mandelbrot",
-        "iterations" : "20",
-        "fractal_specs" : { "type" : "mandelbrot", "max_iterations" : "30" }
+    "mandelbrot": {
+        "path": "./julia.py",
+        "size" : "400",
+        "zoom_factor" : "0.97",
+        "frames" : "50", 
+        "fractal_specs" : { "max_iterations" : "30", "px" : "-0.7746806106269039", "py" : "-0.1374168856037867" }
+    },
+
+    "julia": {
+        "path": "./julia.py",
+        "size" : "400",
+        "zoom_factor" : "0.97",
+        "frames" : "50", 
+        "fractal_specs" : { "max_iterations" : "30", "px" : "-0.7746806106269039", "py" : "-0.1374168856037867", "julia_cx":"-0.835" ,"julia_cy":"-0.2321" }
     }
 
 }
