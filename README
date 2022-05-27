@@ -1,0 +1,10 @@
+There is a "json_example.json" file, modify that or create a new one
+with similar parameters.
+
+To execute the program the command is "python main.py <json_file.json> <fract_type>"
+with <fract_type> the associative index of the extern array in the <
+json_file.json> to load. Or you could dont and then follow the instructions
+of the output of the script. Please keep the json_example.json file in the
+same directory so if you want to press "enter" a couple of times he will 
+generate a mandelbrot video as a default choice.
+
