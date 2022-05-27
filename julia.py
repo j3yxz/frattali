@@ -17,6 +17,7 @@ num_frames = 15 #number of images to create
 mandelbrot = 0
 julia_cx = -0.835
 julia_cy = -0.2321
+R = 3 #the lenght in the complex plane of width and height, 3 is for mandelbrot, 4 for julia
 ###
 
 # passed from json
@@ -32,11 +33,11 @@ if len(argv) > 4:
 	px  = float(argv[5])
 	py = float(argv[6])
 if len(argv) > 7:
-	print("ass------------------")
 	julia_cx  = float(argv[7])
 	julia_cy = float(argv[8]) 
 	escape_radius = 0.5 + np.sqrt(1+4*np.sqrt(julia_cx**2 + julia_cy**2))*0.5
 	mandelbrot = 0
+	R = 4
 else : #this is mandelbrot requested
 	mandelbrot = 1
 	escape_radius = 2
@@ -47,7 +48,6 @@ else : #this is mandelbrot requested
 
 ###
 
-R = 4 #the lenght in the complex plane of width and height
 mfactor = 0.5
 RZF = 1/1000000000000 #min R after that the creation of images will be stopped (probably not to use actually)
 
@@ -111,25 +111,41 @@ def gen_julia_set_image(width,height,nozoom=0):
 			g = min(255,round(g*255))
 
 			b = min(255,round(b*255))
-			image[y][x][0], image[y][x][1], image[y][x][2] = int(r), (int(g) << 8), (int(b) << 16)
+			#the << x mix colors a bit, need to find the best one
+			image[y][x][0], image[y][x][1], image[y][x][2] = int(r), (int(g) << 1), (int(b) << 1)
 
 	return image
+
+def generate_video_from_images(arr_imgs, pathOut, fps,width,height):
+	size = width, height
+	frames = []
+	for i in range(len(arr_imgs)):
+		frames.append(255*arr_imgs[i].astype(np.uint8))
+	fourcc = cv.VideoWriter_fourcc(*"mp4v")
+	out=cv.VideoWriter(pathOut,fourcc,fps, size)
+	for i in range(len(frames)):
+		out.write(frames[i])
+	out.release()
 
 
 for i in range(num_frames):
 
-	if i == 0: cv.imwrite("img/01/init.png",gen_julia_set_image(width, height,nozoom=1))
 	if R < RZF: break
-	for avanti in range(5): 
-		R *= zoom_factor
-		mfactor = 0.5 + (1/1000000000000)**0.1/R**0.1
+	if i == 0 and mandelbrot == 0:
+#		cv.imwrite("img/01/init.png",gen_julia_set_image(width, height,nozoom=1))
+		array_frames.append(gen_julia_set_image(width, height,nozoom=1))
+	else:
+		array_frames.append(gen_julia_set_image(width, height))
+#	for avanti in range(5): 
+#		R *= zoom_factor
+#		mfactor = 0.5 + (1/1000000000000)**0.1/R**0.1
 	
-	mfactor = 0.5 + (1/1000000000000)**0.1/R**0.1
-
 	#print(k,mfactor)
 	print("mafactor 88:",mfactor)
-	array_frames.append(gen_julia_set_image(width, height))
-	if i in range(10): cv.imwrite("img/02/maxIter="+str(max_iteration)+"iter"+str(i+30)+"julia.png", array_frames[i])
+#	if i in range(10): cv.imwrite("img/02/maxIter="+str(max_iteration)+"iter"+str(i+30)+"julia.png", array_frames[i])
+	mfactor = 0.5 + (1/1000000000000)**0.1/R**0.1
 	R *= zoom_factor
-
-#manca solo creare il video finale
+print("video incoming..")
+print("arr_len: ", len(array_frames))
+#generating video
+generate_video_from_images(array_frames, "./video.mp4", 3, width,height)
