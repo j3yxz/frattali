@@ -21,20 +21,20 @@ def prepare_args(j_arr,fr_type):
     args = []
     for i in j_arr[fr_type]:
         args.append( j_arr[fr_type] [i] )
+    args[0] = path.dirname(path.abspath(argv[0]))+args[0].replace("./","/")
     generics = args[:4]
-    print(generics)
+#    print(generics)
     specs = []
     for i in args[4]:
         specs.append(args[4][i])
 
-    print(specs)
+#    print(specs)
     return [*generics ,*specs ]
 
 #function that will call the correct fractal to be computed
 def call_py(argv):
-    path, others =argv[0],argv[1:]
-    print(path)
-    call(["python3", path, *others])
+    f_path, others =argv[0],argv[1:]
+    call(["legate",f_path, *others])
 
 
 
