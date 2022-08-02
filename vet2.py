@@ -6,6 +6,7 @@ import numpy
 from sys import argv
 import time
 
+#TODO in main.py controllare se è avviato legate o python e chiamare di conseguenza il file giusto 
 ####
 
 # usage: ./vet2.py size(px) zoom_factor(0.x) frames max_iterations(for all pixels) px py (center when to zoom in) julia_cx julia_cy (if no julia_cx/y are given, assuming the mandelbrot is requested)
